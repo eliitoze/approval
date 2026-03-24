@@ -1082,7 +1082,7 @@ function renderContent() {
 
 function itemCard(item) {
   const imgContent = item.photo_url
-    ? `<img src="${item.photo_url}" alt="${item.name}" loading="lazy" onerror="this.parentElement.innerHTML='<span>💍</span>'"/>`
+    ? `<img src="${item.photo_url}" alt="${item.name}" loading="lazy">`
     : `<span>💍</span>`;
   const badge = item.status === 'in_stock' ? 'badge-stock' : item.status === 'sold' ? 'badge-sold' : 'badge-returned';
   const badgeText = item.status === 'in_stock' ? 'In Stock' : item.status === 'sold' ? 'Sold' : 'Returned';
@@ -1100,7 +1100,7 @@ function itemCard(item) {
 
 function soldRow(item) {
   const imgContent = item.photo_url
-    ? `<img src="${item.photo_url}" alt="${item.name}" onerror="this.parentElement.innerHTML='💍'"/>`
+    ? `<img src="${item.photo_url}" alt="${item.name}" />`
     : `💍`;
   return `
     <div class="sold-row" onclick="openDetail('${item.id}')">
@@ -1229,7 +1229,7 @@ function openDetail(id) {
   const profit = (item.sold_price || 0) - (item.approval_price || 0);
 
   const imgContent = item.photo_url
-    ? `<img src="${item.photo_url}" style="width:100%;height:100%;object-fit:cover" onerror="this.parentElement.innerHTML='<span style=font-size:60px>💍</span>'"/>`
+    ? `<img src="${item.photo_url}" style="width:100%;height:100%;object-fit:cover" />`
     : `<span style="font-size:60px">💍</span>`;
 
   let actions = '';
