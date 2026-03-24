@@ -28,11 +28,60 @@ body {
   min-height: 100vh;
   padding-bottom: 90px;
 }
-/* HEADER */
+
+/* ── LOGIN SCREEN ── */
+#loginScreen {
+  position: fixed;
+  inset: 0;
+  background: linear-gradient(160deg, #1a1400 0%, #0f0f0f 60%);
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+.login-logo {
+  font-size: 52px;
+  margin-bottom: 10px;
+}
+.login-title {
+  font-family: 'Syne', sans-serif;
+  font-size: 26px;
+  font-weight: 800;
+  color: var(--accent);
+  margin-bottom: 4px;
+}
+.login-sub {
+  font-size: 12px;
+  color: var(--muted);
+  margin-bottom: 32px;
+}
+.login-box {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 24px 20px;
+  width: 100%;
+  max-width: 380px;
+}
+.login-error {
+  background: rgba(242,92,92,0.12);
+  border: 1px solid rgba(242,92,92,0.3);
+  color: var(--red);
+  border-radius: 10px;
+  padding: 10px 14px;
+  font-size: 13px;
+  text-align: center;
+  margin-bottom: 14px;
+  display: none;
+}
+
+/* ── HEADER ── */
 .header {
   background: linear-gradient(135deg, #1a1400 0%, #0f0f0f 60%);
   border-bottom: 1px solid var(--border);
-  padding: 18px 16px 14px;
+  padding: 14px 16px 12px;
   position: sticky;
   top: 0;
   z-index: 100;
@@ -49,11 +98,34 @@ body {
   color: var(--accent);
   letter-spacing: -0.5px;
 }
+.header-meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 4px;
+}
 .header p {
   font-size: 11px;
   color: var(--muted);
-  margin-top: 2px;
 }
+.user-chip {
+  font-size: 10px;
+  color: var(--accent);
+  background: rgba(245,200,66,0.1);
+  border: 1px solid rgba(245,200,66,0.2);
+  border-radius: 50px;
+  padding: 2px 10px;
+  font-weight: 600;
+}
+.view-only-chip {
+  font-size: 10px;
+  color: var(--muted);
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 50px;
+  padding: 2px 10px;
+}
+.header-right { display: flex; align-items: center; gap: 8px; }
 .add-btn {
   background: var(--accent);
   color: #000;
@@ -70,8 +142,18 @@ body {
   transition: all 0.2s;
 }
 .add-btn:active { transform: scale(0.96); }
+.logout-btn {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  color: var(--muted);
+  border-radius: 50px;
+  padding: 8px 14px;
+  font-size: 12px;
+  cursor: pointer;
+  font-family: 'DM Sans', sans-serif;
+}
 
-/* STATS BAR */
+/* ── STATS BAR ── */
 .stats-bar {
   display: flex;
   gap: 10px;
@@ -97,7 +179,7 @@ body {
 .val.green { color: var(--green); }
 .val.red { color: var(--red); }
 
-/* TABS */
+/* ── TABS ── */
 .tabs {
   display: flex;
   padding: 0 16px;
@@ -124,7 +206,7 @@ body {
   border-color: var(--accent);
 }
 
-/* SUPPLIER FILTER */
+/* ── SUPPLIER FILTER ── */
 .filter-row {
   padding: 0 16px 12px;
   display: flex;
@@ -151,7 +233,7 @@ body {
   color: var(--accent);
 }
 
-/* GRID */
+/* ── GRID ── */
 .grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -182,15 +264,15 @@ body {
   justify-content: center;
   font-size: 36px;
   color: var(--muted);
+  overflow: hidden;
 }
 .item-img img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  display: block;
 }
-.item-info {
-  padding: 10px;
-}
+.item-info { padding: 10px; }
 .item-name {
   font-family: 'Syne', sans-serif;
   font-size: 13px;
@@ -200,11 +282,7 @@ body {
   overflow: hidden;
   text-overflow: ellipsis;
 }
-.item-price {
-  font-size: 15px;
-  font-weight: 500;
-  color: var(--accent);
-}
+.item-price { font-size: 15px; font-weight: 500; color: var(--accent); }
 .item-price span { font-size: 10px; color: var(--muted); }
 .item-supplier {
   font-size: 10px;
@@ -226,7 +304,7 @@ body {
 .badge-sold { background: rgba(242,92,92,0.15); color: var(--red); }
 .badge-returned { background: rgba(136,136,136,0.15); color: var(--muted); }
 
-/* SOLD LIST TAB */
+/* ── SOLD LIST TAB ── */
 .sold-list { padding: 0 16px; display: flex; flex-direction: column; gap: 10px; }
 .sold-row {
   background: var(--surface);
@@ -237,12 +315,12 @@ body {
   gap: 12px;
   align-items: center;
   animation: fadeUp 0.3s ease both;
+  cursor: pointer;
 }
 .sold-thumb {
   width: 54px;
   height: 54px;
   border-radius: 10px;
-  object-fit: cover;
   background: var(--surface2);
   display: flex;
   align-items: center;
@@ -251,7 +329,7 @@ body {
   flex-shrink: 0;
   overflow: hidden;
 }
-.sold-thumb img { width: 100%; height: 100%; object-fit: cover; }
+.sold-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
 .sold-info { flex: 1; min-width: 0; }
 .sold-name { font-family: 'Syne', sans-serif; font-size: 13px; font-weight: 700; }
 .sold-supplier { font-size: 11px; color: var(--muted); }
@@ -278,12 +356,12 @@ body {
   gap: 8px;
 }
 
-/* MODAL */
+/* ── MODAL ── */
 .overlay {
   display: none;
   position: fixed;
   inset: 0;
-  background: rgba(0,0,0,0.8);
+  background: rgba(0,0,0,0.82);
   z-index: 200;
   align-items: flex-end;
   justify-content: center;
@@ -351,9 +429,28 @@ body {
   overflow: hidden;
   position: relative;
 }
-.photo-upload img { width: 100%; height: 100%; object-fit: cover; position: absolute; }
-.photo-upload input { display: none; }
+.photo-upload img { width: 100%; height: 100%; object-fit: cover; position: absolute; top:0; left:0; }
+.photo-upload input[type=file] { display: none; }
 .photo-upload .icon { font-size: 28px; }
+.photo-btns {
+  display: flex;
+  gap: 8px;
+  margin-top: 10px;
+}
+.photo-btn {
+  flex: 1;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 10px;
+  color: var(--text);
+  font-size: 13px;
+  cursor: pointer;
+  text-align: center;
+  transition: border-color 0.2s;
+  font-family: 'DM Sans', sans-serif;
+}
+.photo-btn:hover { border-color: var(--accent); color: var(--accent); }
 
 .modal-actions { display: flex; gap: 10px; margin-top: 20px; }
 .btn-primary {
@@ -380,11 +477,10 @@ body {
   cursor: pointer;
 }
 
-/* DETAIL MODAL */
+/* ── DETAIL MODAL ── */
 .detail-img {
   width: 100%;
   aspect-ratio: 1;
-  object-fit: cover;
   border-radius: 16px;
   background: var(--surface2);
   display: flex;
@@ -394,7 +490,7 @@ body {
   overflow: hidden;
   margin-bottom: 16px;
 }
-.detail-img img { width: 100%; height: 100%; object-fit: cover; }
+.detail-img img { width: 100%; height: 100%; object-fit: cover; display: block; }
 .detail-row { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid var(--border); }
 .detail-row .key { color: var(--muted); font-size: 13px; }
 .detail-row .val2 { font-size: 13px; font-weight: 600; }
@@ -438,7 +534,7 @@ body {
   margin-top: 8px;
 }
 
-/* BOTTOM NAV */
+/* ── BOTTOM NAV ── */
 .bottom-nav {
   position: fixed;
   bottom: 0;
@@ -472,14 +568,7 @@ body {
 }
 .empty-state .icon { font-size: 48px; margin-bottom: 12px; }
 .empty-state p { font-size: 14px; }
-
 .loading { text-align: center; padding: 40px; color: var(--muted); font-size: 13px; }
-
-/* Sell modal */
-.sell-modal-content { padding: 0; }
-
-/* Supplier modal */
-#supplierModal .modal { padding-bottom: 40px; }
 
 .toast {
   position: fixed;
@@ -509,18 +598,68 @@ body {
 }
 .profit-row .key { font-size: 13px; color: var(--green); }
 .profit-row .val2 { font-size: 14px; font-weight: 700; color: var(--green); }
+
+/* ── USER LIST ── */
+.user-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--border);
+}
+.user-row .uname { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 14px; }
+.user-row .urole { font-size: 11px; color: var(--muted); margin-top: 2px; }
+.user-creds {
+  font-size: 11px;
+  color: var(--accent);
+  background: rgba(245,200,66,0.08);
+  border: 1px solid rgba(245,200,66,0.15);
+  border-radius: 6px;
+  padding: 3px 8px;
+  margin-top: 4px;
+  display: inline-block;
+}
 </style>
 </head>
 <body>
+
+<!-- ═══ LOGIN SCREEN ═══ -->
+<div id="loginScreen">
+  <div class="login-logo">📦</div>
+  <div class="login-title">Approval Stock</div>
+  <div class="login-sub">Sign in to continue</div>
+  <div class="login-box">
+    <div class="login-error" id="loginError">❌ Wrong username or password</div>
+    <div class="form-group">
+      <label>Username</label>
+      <input type="text" id="loginUser" placeholder="Enter username" autocomplete="off" autocapitalize="none"/>
+    </div>
+    <div class="form-group">
+      <label>Password</label>
+      <input type="password" id="loginPass" placeholder="Enter password"
+        onkeydown="if(event.key==='Enter') doLogin()"/>
+    </div>
+    <button class="btn-primary" style="width:100%;margin-top:4px" onclick="doLogin()">Sign In →</button>
+  </div>
+</div>
+
+<!-- ═══ MAIN APP (hidden until login) ═══ -->
+<div id="mainApp" style="display:none">
 
 <!-- HEADER -->
 <div class="header">
   <div class="header-top">
     <div>
       <h1>📦 Approval Stock</h1>
-      <p id="headerSub">Track approval items from vendors</p>
+      <div class="header-meta">
+        <span class="user-chip" id="userChip"></span>
+        <span class="view-only-chip" id="viewOnlyChip" style="display:none">👁️ View Only</span>
+      </div>
     </div>
-    <button class="add-btn" onclick="openAddModal()">＋ Add</button>
+    <div class="header-right">
+      <button class="add-btn" id="addBtn" onclick="openAddModal()">＋ Add</button>
+      <button class="logout-btn" onclick="doLogout()">Exit</button>
+    </div>
   </div>
 </div>
 
@@ -562,19 +701,30 @@ body {
   <div class="nav-item" onclick="openSupplierModal()">
     <span class="icon">🏪</span><span>Vendors</span>
   </div>
+  <div class="nav-item" id="usersNavItem" style="display:none" onclick="openUsersModal()">
+    <span class="icon">👥</span><span>Users</span>
+  </div>
 </div>
 
-<!-- ADD ITEM MODAL -->
+</div><!-- end mainApp -->
+
+<!-- ═══ ADD ITEM MODAL ═══ -->
 <div class="overlay" id="addModal">
   <div class="modal">
     <div class="modal-handle"></div>
     <h2>Add Approval Item</h2>
     <div class="form-group">
       <label>Photo</label>
-      <div class="photo-upload" id="photoUploadBox" onclick="document.getElementById('photoInput').click()">
-        <input type="file" id="photoInput" accept="image/*" capture="environment" onchange="previewPhoto(this)"/>
-        <span class="icon">📷</span>
-        <span>Tap to take photo or upload</span>
+      <!-- Hidden file inputs -->
+      <input type="file" id="photoInputGallery" accept="image/*" style="display:none" onchange="previewPhoto(this)"/>
+      <input type="file" id="photoInputCamera" accept="image/*" capture="environment" style="display:none" onchange="previewPhoto(this)"/>
+      <div class="photo-upload" id="photoUploadBox">
+        <span class="icon">🖼️</span>
+        <span>Select photo below</span>
+      </div>
+      <div class="photo-btns">
+        <button class="photo-btn" onclick="document.getElementById('photoInputGallery').click()">🖼️ Gallery</button>
+        <button class="photo-btn" onclick="document.getElementById('photoInputCamera').click()">📷 Camera</button>
       </div>
     </div>
     <div class="form-group">
@@ -602,7 +752,7 @@ body {
   </div>
 </div>
 
-<!-- DETAIL MODAL -->
+<!-- ═══ DETAIL MODAL ═══ -->
 <div class="overlay" id="detailModal">
   <div class="modal">
     <div class="modal-handle"></div>
@@ -610,7 +760,7 @@ body {
   </div>
 </div>
 
-<!-- SELL MODAL -->
+<!-- ═══ SELL MODAL ═══ -->
 <div class="overlay" id="sellModal">
   <div class="modal">
     <div class="modal-handle"></div>
@@ -634,24 +784,53 @@ body {
   </div>
 </div>
 
-<!-- SUPPLIER MODAL -->
+<!-- ═══ SUPPLIER MODAL ═══ -->
 <div class="overlay" id="supplierModal">
   <div class="modal">
     <div class="modal-handle"></div>
     <h2>🏪 Vendors</h2>
-    <div class="form-group">
-      <label>Vendor Name</label>
-      <input type="text" id="supplierName" placeholder="e.g. Ramesh Jewellers"/>
-    </div>
-    <div class="form-group">
-      <label>Phone (optional)</label>
-      <input type="tel" id="supplierPhone" placeholder="9876543210"/>
-    </div>
-    <div class="modal-actions">
-      <button class="btn-secondary" onclick="closeModal('supplierModal')">Close</button>
-      <button class="btn-primary" onclick="saveSupplier()">Add Vendor</button>
+    <div id="supplierAddSection">
+      <div class="form-group">
+        <label>Vendor Name</label>
+        <input type="text" id="supplierName" placeholder="e.g. Ramesh Jewellers"/>
+      </div>
+      <div class="form-group">
+        <label>Phone (optional)</label>
+        <input type="tel" id="supplierPhone" placeholder="9876543210"/>
+      </div>
+      <div class="modal-actions">
+        <button class="btn-secondary" onclick="closeModal('supplierModal')">Close</button>
+        <button class="btn-primary" onclick="saveSupplier()">Add Vendor</button>
+      </div>
     </div>
     <div id="supplierList" style="margin-top:20px;"></div>
+  </div>
+</div>
+
+<!-- ═══ USERS MODAL ═══ -->
+<div class="overlay" id="usersModal">
+  <div class="modal">
+    <div class="modal-handle"></div>
+    <h2>👥 Manage Users</h2>
+    <div class="form-group">
+      <label>New Username</label>
+      <input type="text" id="newUsername" placeholder="Enter username" autocomplete="off" autocapitalize="none"/>
+    </div>
+    <div class="form-group">
+      <label>New Password</label>
+      <input type="text" id="newPassword" placeholder="Enter password"/>
+    </div>
+    <div class="form-group">
+      <label>Linked Vendor (optional)</label>
+      <select id="newUserVendor">
+        <option value="">No vendor link</option>
+      </select>
+    </div>
+    <div class="modal-actions">
+      <button class="btn-secondary" onclick="closeModal('usersModal')">Close</button>
+      <button class="btn-primary" onclick="addUser()">Add User</button>
+    </div>
+    <div id="usersList" style="margin-top:20px;"></div>
   </div>
 </div>
 
@@ -659,25 +838,152 @@ body {
 <div class="toast" id="toast"></div>
 
 <script>
+// ═══════════════════════════════════════════════
+// SUPABASE
+// ═══════════════════════════════════════════════
 const SUPABASE_URL = 'https://aykfplzlmzzkydlzvkwb.supabase.co';
 const SUPABASE_KEY = 'sb_publishable_Q3lBGzYvGL01NLKO3SeWQA_GhW5K4ao';
 const { createClient } = supabase;
 const db = createClient(SUPABASE_URL, SUPABASE_KEY);
 
+// ═══════════════════════════════════════════════
+// AUTH
+// ═══════════════════════════════════════════════
+const MASTER_USER = '152207';
+const MASTER_PASS = '281981';
+let currentUser = null;   // username string
+let isMaster = false;
+let currentVendorFilter = null; // for vendor-linked users
+
+function getStoredUsers() {
+  try { return JSON.parse(localStorage.getItem('asUsers') || '[]'); } catch { return []; }
+}
+function setStoredUsers(arr) {
+  localStorage.setItem('asUsers', JSON.stringify(arr));
+}
+
+function doLogin() {
+  const u = document.getElementById('loginUser').value.trim();
+  const p = document.getElementById('loginPass').value;
+  const errEl = document.getElementById('loginError');
+
+  // Master login
+  if (u === MASTER_USER && p === MASTER_PASS) {
+    currentUser = u; isMaster = true; currentVendorFilter = null;
+    onLoginSuccess(); return;
+  }
+
+  // View-only users
+  const users = getStoredUsers();
+  const found = users.find(x => x.username === u && x.password === p);
+  if (found) {
+    currentUser = u; isMaster = false;
+    currentVendorFilter = found.vendorId || null;
+    onLoginSuccess(); return;
+  }
+
+  errEl.style.display = 'block';
+  setTimeout(() => errEl.style.display = 'none', 3000);
+}
+
+function onLoginSuccess() {
+  document.getElementById('loginScreen').style.display = 'none';
+  document.getElementById('mainApp').style.display = 'block';
+
+  document.getElementById('userChip').textContent = isMaster ? '👑 ' + currentUser : '👤 ' + currentUser;
+  document.getElementById('viewOnlyChip').style.display = isMaster ? 'none' : 'inline-block';
+  document.getElementById('addBtn').style.display = isMaster ? 'flex' : 'none';
+  document.getElementById('usersNavItem').style.display = isMaster ? 'flex' : 'none';
+
+  // If vendor-linked user, pre-set filter
+  if (!isMaster && currentVendorFilter) {
+    activeSupplier = currentVendorFilter;
+  }
+
+  loadSuppliers().then(() => loadItems());
+}
+
+function doLogout() {
+  currentUser = null; isMaster = false; currentVendorFilter = null;
+  activeSupplier = null;
+  document.getElementById('mainApp').style.display = 'none';
+  document.getElementById('loginScreen').style.display = 'flex';
+  document.getElementById('loginUser').value = '';
+  document.getElementById('loginPass').value = '';
+}
+
+// ═══════════════════════════════════════════════
+// USER MANAGEMENT
+// ═══════════════════════════════════════════════
+function openUsersModal() {
+  // Populate vendor dropdown in users modal
+  const sel = document.getElementById('newUserVendor');
+  sel.innerHTML = '<option value="">No vendor link</option>';
+  allSuppliers.forEach(s => {
+    sel.innerHTML += `<option value="${s.id}">${s.name}</option>`;
+  });
+  renderUsersList();
+  document.getElementById('usersModal').classList.add('open');
+}
+
+function renderUsersList() {
+  const users = getStoredUsers();
+  const list = document.getElementById('usersList');
+  if (users.length === 0) {
+    list.innerHTML = '<p style="color:var(--muted);font-size:13px;text-align:center;padding:16px 0">No users yet</p>';
+    return;
+  }
+  list.innerHTML = users.map((u, i) => {
+    const vendor = allSuppliers.find(s => s.id === u.vendorId);
+    return `<div class="user-row">
+      <div>
+        <div class="uname">👤 ${u.username}</div>
+        <div class="urole">View Only${vendor ? ' · ' + vendor.name : ''}</div>
+        <span class="user-creds">User: ${u.username} &nbsp;|&nbsp; Pass: ${u.password}</span>
+      </div>
+      <button onclick="deleteUser(${i})" style="background:none;border:none;color:var(--red);font-size:20px;cursor:pointer">🗑️</button>
+    </div>`;
+  }).join('');
+}
+
+function addUser() {
+  const username = document.getElementById('newUsername').value.trim();
+  const password = document.getElementById('newPassword').value.trim();
+  const vendorId = document.getElementById('newUserVendor').value || null;
+  if (!username || !password) { showToast('⚠️ Username & password required'); return; }
+  if (username === MASTER_USER) { showToast('⚠️ Reserved username'); return; }
+  const users = getStoredUsers();
+  if (users.find(u => u.username === username)) { showToast('⚠️ Username already exists'); return; }
+  users.push({ username, password, vendorId });
+  setStoredUsers(users);
+  document.getElementById('newUsername').value = '';
+  document.getElementById('newPassword').value = '';
+  document.getElementById('newUserVendor').value = '';
+  showToast('✅ User added!');
+  renderUsersList();
+}
+
+function deleteUser(idx) {
+  if (!confirm('Delete this user?')) return;
+  const users = getStoredUsers();
+  users.splice(idx, 1);
+  setStoredUsers(users);
+  showToast('🗑️ User deleted');
+  renderUsersList();
+}
+
+// ═══════════════════════════════════════════════
+// APP STATE
+// ═══════════════════════════════════════════════
 let allItems = [];
 let allSuppliers = [];
 let currentTab = 'stock';
 let activeSupplier = null;
-let uploadedPhotoUrl = null;
 let currentItem = null;
 
-// ─── INIT ───────────────────────────────────────────────
-window.addEventListener('DOMContentLoaded', async () => {
-  await loadSuppliers();
-  await loadItems();
-});
-
-// ─── LOAD SUPPLIERS ──────────────────────────────────────
+// ═══════════════════════════════════════════════
+// LOAD DATA
+// ═══════════════════════════════════════════════
 async function loadSuppliers() {
   const { data, error } = await db.from('suppliers').select('*').order('name');
   if (error) { showToast('Error loading vendors'); return; }
@@ -688,6 +994,11 @@ async function loadSuppliers() {
 
 function updateSupplierFilter() {
   const row = document.getElementById('filterRow');
+  // Vendor-linked users see only their vendor
+  if (!isMaster && currentVendorFilter) {
+    row.innerHTML = '';
+    return;
+  }
   row.innerHTML = `<div class="filter-chip ${activeSupplier === null ? 'active' : ''}" onclick="filterSupplier(null, this)">All</div>`;
   allSuppliers.forEach(s => {
     const chip = document.createElement('div');
@@ -706,33 +1017,49 @@ function updateSupplierDropdown() {
   });
 }
 
-// ─── LOAD ITEMS ──────────────────────────────────────────
 async function loadItems() {
   document.getElementById('contentArea').innerHTML = '<div class="loading">Loading...</div>';
-  const { data, error } = await db.from('items').select('*, suppliers(name, phone)').order('created_at', { ascending: false });
+  const { data, error } = await db.from('items')
+    .select('*, suppliers(name, phone)')
+    .order('created_at', { ascending: false });
   if (error) { showToast('Error loading items'); return; }
   allItems = data || [];
   updateStats();
   renderContent();
 }
 
-// ─── STATS ───────────────────────────────────────────────
+// ═══════════════════════════════════════════════
+// STATS
+// ═══════════════════════════════════════════════
 function updateStats() {
-  const stock = allItems.filter(i => i.status === 'in_stock');
-  const sold = allItems.filter(i => i.status === 'sold');
-  document.getElementById('statTotal').textContent = allItems.length;
+  let items = allItems;
+  // Vendor-linked users: only their vendor's items
+  if (!isMaster && currentVendorFilter) {
+    items = items.filter(i => i.supplier_id === currentVendorFilter);
+  }
+  const stock = items.filter(i => i.status === 'in_stock');
+  const sold = items.filter(i => i.status === 'sold');
+  document.getElementById('statTotal').textContent = items.length;
   document.getElementById('statStock').textContent = stock.length;
   document.getElementById('statSold').textContent = sold.length;
-  const totalVal = allItems.reduce((s,i) => s + (i.approval_price || 0), 0);
+  const totalVal = items.reduce((s,i) => s + (i.approval_price || 0), 0);
   const revenue = sold.reduce((s,i) => s + (i.sold_price || 0), 0);
   document.getElementById('statValue').textContent = '₹' + formatNum(totalVal);
   document.getElementById('statRevenue').textContent = '₹' + formatNum(revenue);
 }
 
-// ─── RENDER ───────────────────────────────────────────────
+// ═══════════════════════════════════════════════
+// RENDER
+// ═══════════════════════════════════════════════
 function renderContent() {
   let items = allItems;
-  if (activeSupplier) items = items.filter(i => i.supplier_id === activeSupplier);
+
+  // Vendor-linked users see only their vendor's items
+  if (!isMaster && currentVendorFilter) {
+    items = items.filter(i => i.supplier_id === currentVendorFilter);
+  } else if (activeSupplier) {
+    items = items.filter(i => i.supplier_id === activeSupplier);
+  }
 
   if (currentTab === 'stock') items = items.filter(i => i.status === 'in_stock');
   else if (currentTab === 'sold') items = items.filter(i => i.status === 'sold');
@@ -745,7 +1072,7 @@ function renderContent() {
 
   if (currentTab === 'sold') {
     area.innerHTML = `
-      <button class="whatsapp-btn" onclick="shareWhatsApp()">📲 Share Sold List on WhatsApp</button>
+      ${isMaster ? '<button class="whatsapp-btn" onclick="shareWhatsApp()">📲 Share Sold List on WhatsApp</button>' : ''}
       <div class="sold-list">${items.map(soldRow).join('')}</div>
     `;
   } else {
@@ -755,7 +1082,7 @@ function renderContent() {
 
 function itemCard(item) {
   const imgContent = item.photo_url
-    ? `<img src="${item.photo_url}" alt="${item.name}" loading="lazy"/>`
+    ? `<img src="${item.photo_url}" alt="${item.name}" loading="lazy" onerror="this.parentElement.innerHTML='<span>💍</span>'"/>`
     : `<span>💍</span>`;
   const badge = item.status === 'in_stock' ? 'badge-stock' : item.status === 'sold' ? 'badge-sold' : 'badge-returned';
   const badgeText = item.status === 'in_stock' ? 'In Stock' : item.status === 'sold' ? 'Sold' : 'Returned';
@@ -773,9 +1100,8 @@ function itemCard(item) {
 
 function soldRow(item) {
   const imgContent = item.photo_url
-    ? `<img src="${item.photo_url}" alt="${item.name}"/>`
+    ? `<img src="${item.photo_url}" alt="${item.name}" onerror="this.parentElement.innerHTML='💍'"/>`
     : `💍`;
-  const profit = (item.sold_price || 0) - (item.approval_price || 0);
   return `
     <div class="sold-row" onclick="openDetail('${item.id}')">
       <div class="sold-thumb">${imgContent}</div>
@@ -786,12 +1112,19 @@ function soldRow(item) {
           <div class="sold-price-item"><span class="lbl">Approval: </span><span class="amt">₹${formatNum(item.approval_price)}</span></div>
           <div class="sold-price-item"><span class="lbl">Sold: </span><span class="amt green">₹${formatNum(item.sold_price)}</span></div>
         </div>
-        <div class="sold-price-item" style="margin-top:2px"><span class="lbl">Payment: </span><span class="amt" style="color:${item.payment_received ? 'var(--green)' : 'var(--red)'}">${item.payment_received ? '✅ Received' : '⏳ Pending'}</span></div>
+        <div class="sold-price-item" style="margin-top:2px">
+          <span class="lbl">Payment: </span>
+          <span class="amt" style="color:${item.payment_received ? 'var(--green)' : 'var(--red)'}">
+            ${item.payment_received ? '✅ Received' : '⏳ Pending'}
+          </span>
+        </div>
       </div>
     </div>`;
 }
 
-// ─── TABS ─────────────────────────────────────────────────
+// ═══════════════════════════════════════════════
+// TABS & NAV
+// ═══════════════════════════════════════════════
 function switchTab(tab) {
   currentTab = tab;
   document.querySelectorAll('.tab').forEach((t,i) => {
@@ -812,17 +1145,20 @@ function filterSupplier(id, el) {
   renderContent();
 }
 
-// ─── ADD ITEM ─────────────────────────────────────────────
+// ═══════════════════════════════════════════════
+// ADD ITEM
+// ═══════════════════════════════════════════════
 function openAddModal() {
-  uploadedPhotoUrl = null;
+  if (!isMaster) { showToast('⚠️ View only access'); return; }
   document.getElementById('itemName').value = '';
   document.getElementById('itemDesc').value = '';
   document.getElementById('itemPrice').value = '';
   document.getElementById('itemSupplier').value = '';
+  document.getElementById('photoInputGallery').value = '';
+  document.getElementById('photoInputCamera').value = '';
   document.getElementById('photoUploadBox').innerHTML = `
-    <input type="file" id="photoInput" accept="image/*" capture="environment" onchange="previewPhoto(this)"/>
-    <span class="icon">📷</span>
-    <span>Tap to take photo or upload</span>`;
+    <span class="icon">🖼️</span>
+    <span>Select photo below</span>`;
   document.getElementById('addModal').classList.add('open');
 }
 
@@ -833,19 +1169,18 @@ function previewPhoto(input) {
   reader.onload = e => {
     const box = document.getElementById('photoUploadBox');
     box.innerHTML = `
-      <input type="file" id="photoInput" accept="image/*" capture="environment" onchange="previewPhoto(this)"/>
-      <img src="${e.target.result}" style="position:absolute;width:100%;height:100%;object-fit:cover;border-radius:12px"/>
-      <span style="position:relative;z-index:1;background:rgba(0,0,0,0.5);padding:4px 10px;border-radius:50px;font-size:11px">Change</span>`;
+      <img src="${e.target.result}" style="position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;border-radius:12px"/>
+      <span style="position:relative;z-index:1;background:rgba(0,0,0,0.55);padding:4px 12px;border-radius:50px;font-size:11px">✓ Selected</span>`;
   };
   reader.readAsDataURL(file);
 }
 
 async function saveItem() {
+  if (!isMaster) { showToast('⚠️ View only access'); return; }
   const name = document.getElementById('itemName').value.trim();
   const desc = document.getElementById('itemDesc').value.trim();
   const price = parseFloat(document.getElementById('itemPrice').value);
   const supplierId = document.getElementById('itemSupplier').value;
-  const photoInput = document.getElementById('photoInput');
 
   if (!name || !price) { showToast('⚠️ Name & price required'); return; }
 
@@ -853,12 +1188,16 @@ async function saveItem() {
   btn.textContent = 'Saving...';
   btn.disabled = true;
 
+  // Get whichever file input has a file
+  const galleryInput = document.getElementById('photoInputGallery');
+  const cameraInput = document.getElementById('photoInputCamera');
+  const photoFile = (galleryInput.files[0] || cameraInput.files[0]) || null;
+
   let photoUrl = null;
-  if (photoInput.files[0]) {
-    const file = photoInput.files[0];
-    const ext = file.name.split('.').pop();
+  if (photoFile) {
+    const ext = photoFile.name.split('.').pop();
     const path = `items/${Date.now()}.${ext}`;
-    const { error: upErr } = await db.storage.from('item-photos').upload(path, file, { upsert: true });
+    const { error: upErr } = await db.storage.from('item-photos').upload(path, photoFile, { upsert: true });
     if (!upErr) {
       const { data: urlData } = db.storage.from('item-photos').getPublicUrl(path);
       photoUrl = urlData.publicUrl;
@@ -880,27 +1219,29 @@ async function saveItem() {
   await loadItems();
 }
 
-// ─── DETAIL ───────────────────────────────────────────────
+// ═══════════════════════════════════════════════
+// DETAIL
+// ═══════════════════════════════════════════════
 function openDetail(id) {
   currentItem = allItems.find(i => i.id === id);
   if (!currentItem) return;
   const item = currentItem;
   const profit = (item.sold_price || 0) - (item.approval_price || 0);
+
   const imgContent = item.photo_url
-    ? `<img src="${item.photo_url}" style="width:100%;height:100%;object-fit:cover"/>`
+    ? `<img src="${item.photo_url}" style="width:100%;height:100%;object-fit:cover" onerror="this.parentElement.innerHTML='<span style=font-size:60px>💍</span>'"/>`
     : `<span style="font-size:60px">💍</span>`;
 
   let actions = '';
-  if (item.status === 'in_stock') {
-    actions = `
-      <button class="sell-btn" onclick="openSellModal('${item.id}')">💰 Mark as Sold</button>
-      <button class="return-btn" onclick="markReturned('${item.id}')">↩️ Return to Vendor</button>
-      <button class="danger-btn" onclick="deleteItem('${item.id}')">🗑️ Delete Item</button>`;
-  } else if (item.status === 'sold') {
-    actions = `
-      <button class="danger-btn" onclick="deleteItem('${item.id}')">🗑️ Delete Item</button>`;
-  } else {
-    actions = `<button class="danger-btn" onclick="deleteItem('${item.id}')">🗑️ Delete Item</button>`;
+  if (isMaster) {
+    if (item.status === 'in_stock') {
+      actions = `
+        <button class="sell-btn" onclick="openSellModal('${item.id}')">💰 Mark as Sold</button>
+        <button class="return-btn" onclick="markReturned('${item.id}')">↩️ Return to Vendor</button>
+        <button class="danger-btn" onclick="deleteItem('${item.id}')">🗑️ Delete Item</button>`;
+    } else {
+      actions = `<button class="danger-btn" onclick="deleteItem('${item.id}')">🗑️ Delete Item</button>`;
+    }
   }
 
   document.getElementById('detailContent').innerHTML = `
@@ -912,7 +1253,8 @@ function openDetail(id) {
     <div class="detail-row"><span class="key">Status</span><span class="val2">${item.status === 'in_stock' ? '📦 In Stock' : item.status === 'sold' ? '✅ Sold' : '↩️ Returned'}</span></div>
     ${item.status === 'sold' ? `
     <div class="detail-row"><span class="key">Sold Price</span><span class="val2" style="color:var(--green)">₹${formatNum(item.sold_price)}</span></div>
-    <div class="detail-row"><span class="key">Payment</span><span class="val2" style="color:${item.payment_received ? 'var(--green)':'var(--red)'}">${item.payment_received ? '✅ Received' : '⏳ Pending'}</span></div>
+    <div class="detail-row"><span class="key">Payment</span><span class="val2" style="color:${item.payment_received ? 'var(--green)':'var(--red)'}">
+      ${item.payment_received ? '✅ Received' : '⏳ Pending'}</span></div>
     <div class="profit-row"><span class="key">Profit/Loss</span><span class="val2">₹${formatNum(profit)}</span></div>
     ` : ''}
     <div class="detail-row"><span class="key">Added On</span><span class="val2">${formatDate(item.created_at)}</span></div>
@@ -921,8 +1263,11 @@ function openDetail(id) {
   document.getElementById('detailModal').classList.add('open');
 }
 
-// ─── SELL ─────────────────────────────────────────────────
+// ═══════════════════════════════════════════════
+// SELL
+// ═══════════════════════════════════════════════
 function openSellModal(id) {
+  if (!isMaster) return;
   document.getElementById('sellItemId').value = id;
   document.getElementById('soldPrice').value = '';
   document.getElementById('paymentStatus').value = 'true';
@@ -931,16 +1276,15 @@ function openSellModal(id) {
 }
 
 async function confirmSell() {
+  if (!isMaster) return;
   const id = document.getElementById('sellItemId').value;
   const soldPrice = parseFloat(document.getElementById('soldPrice').value);
   const paymentReceived = document.getElementById('paymentStatus').value === 'true';
   if (!soldPrice) { showToast('⚠️ Enter sold price'); return; }
-
   const { error } = await db.from('items').update({
     status: 'sold', sold_price: soldPrice,
     payment_received: paymentReceived, sold_at: new Date().toISOString()
   }).eq('id', id);
-
   if (error) { showToast('❌ Error'); return; }
   showToast('✅ Marked as sold!');
   closeModal('sellModal');
@@ -948,6 +1292,7 @@ async function confirmSell() {
 }
 
 async function markReturned(id) {
+  if (!isMaster) return;
   if (!confirm('Mark as returned to vendor?')) return;
   const { error } = await db.from('items').update({ status: 'returned' }).eq('id', id);
   if (error) { showToast('❌ Error'); return; }
@@ -957,6 +1302,7 @@ async function markReturned(id) {
 }
 
 async function deleteItem(id) {
+  if (!isMaster) return;
   if (!confirm('Delete this item?')) return;
   const { error } = await db.from('items').delete().eq('id', id);
   if (error) { showToast('❌ Error'); return; }
@@ -965,26 +1311,34 @@ async function deleteItem(id) {
   await loadItems();
 }
 
-// ─── SUPPLIER ─────────────────────────────────────────────
+// ═══════════════════════════════════════════════
+// SUPPLIER
+// ═══════════════════════════════════════════════
 function openSupplierModal() {
+  // View-only users: hide add section
+  document.getElementById('supplierAddSection').style.display = isMaster ? 'block' : 'none';
   renderSupplierList();
   document.getElementById('supplierModal').classList.add('open');
 }
 
 function renderSupplierList() {
   const list = document.getElementById('supplierList');
-  if (allSuppliers.length === 0) { list.innerHTML = '<p style="color:var(--muted);font-size:13px;text-align:center">No vendors yet</p>'; return; }
+  if (allSuppliers.length === 0) {
+    list.innerHTML = '<p style="color:var(--muted);font-size:13px;text-align:center">No vendors yet</p>';
+    return;
+  }
   list.innerHTML = allSuppliers.map(s => `
     <div style="display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid var(--border)">
       <div>
         <div style="font-family:Syne,sans-serif;font-weight:700;font-size:14px">${s.name}</div>
         ${s.phone ? `<div style="font-size:12px;color:var(--muted)">${s.phone}</div>` : ''}
       </div>
-      <button onclick="deleteSupplier('${s.id}')" style="background:none;border:none;color:var(--red);font-size:18px;cursor:pointer">🗑️</button>
+      ${isMaster ? `<button onclick="deleteSupplier('${s.id}')" style="background:none;border:none;color:var(--red);font-size:20px;cursor:pointer">🗑️</button>` : ''}
     </div>`).join('');
 }
 
 async function saveSupplier() {
+  if (!isMaster) return;
   const name = document.getElementById('supplierName').value.trim();
   const phone = document.getElementById('supplierPhone').value.trim();
   if (!name) { showToast('⚠️ Vendor name required'); return; }
@@ -998,6 +1352,7 @@ async function saveSupplier() {
 }
 
 async function deleteSupplier(id) {
+  if (!isMaster) return;
   if (!confirm('Delete this vendor?')) return;
   const { error } = await db.from('suppliers').delete().eq('id', id);
   if (error) { showToast('❌ Error'); return; }
@@ -1006,7 +1361,9 @@ async function deleteSupplier(id) {
   renderSupplierList();
 }
 
-// ─── WHATSAPP ─────────────────────────────────────────────
+// ═══════════════════════════════════════════════
+// WHATSAPP
+// ═══════════════════════════════════════════════
 function shareWhatsApp() {
   let items = allItems.filter(i => i.status === 'sold');
   if (activeSupplier) items = items.filter(i => i.supplier_id === activeSupplier);
@@ -1036,24 +1393,26 @@ function shareWhatsApp() {
   window.location.href = url;
 }
 
-// ─── UTILS ────────────────────────────────────────────────
+// ═══════════════════════════════════════════════
+// UTILS
+// ═══════════════════════════════════════════════
 function closeModal(id) {
   document.getElementById(id).classList.remove('open');
 }
-document.querySelectorAll('.overlay').forEach(o => {
-  o.addEventListener('click', e => { if (e.target === o) o.classList.remove('open'); });
+document.addEventListener('DOMContentLoaded', () => {
+  document.querySelectorAll('.overlay').forEach(o => {
+    o.addEventListener('click', e => { if (e.target === o) o.classList.remove('open'); });
+  });
 });
 
 function formatNum(n) {
   if (!n) return '0';
   return Number(n).toLocaleString('en-IN');
 }
-
 function formatDate(d) {
   if (!d) return '—';
   return new Date(d).toLocaleDateString('en-IN', { day:'numeric', month:'short', year:'numeric' });
 }
-
 function showToast(msg) {
   const t = document.getElementById('toast');
   t.textContent = msg;
