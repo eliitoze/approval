@@ -1082,7 +1082,7 @@ function renderContent() {
 
 function itemCard(item) {
   const imgContent = item.photo_url
-    ? `<img src="${item.photo_url}" alt="${item.name}" loading="lazy">`
+    ? `<img src="${item.photo_url}" alt="${item.name}" loading="lazy" onerror="this.parentElement.innerHTML='<span>💍</span>'"/>`
     : `<span>💍</span>`;
   const badge = item.status === 'in_stock' ? 'badge-stock' : item.status === 'sold' ? 'badge-sold' : 'badge-returned';
   const badgeText = item.status === 'in_stock' ? 'In Stock' : item.status === 'sold' ? 'Sold' : 'Returned';
@@ -1100,7 +1100,7 @@ function itemCard(item) {
 
 function soldRow(item) {
   const imgContent = item.photo_url
-    ? `<img src="${item.photo_url}" alt="${item.name}" />`
+    ? `<img src="${item.photo_url}" alt="${item.name}" onerror="this.parentElement.innerHTML='💍'"/>`
     : `💍`;
   return `
     <div class="sold-row" onclick="openDetail('${item.id}')">
@@ -1175,14 +1175,14 @@ function previewPhoto(input) {
   reader.readAsDataURL(file);
 }
 
-async function saveItem() {
+async async function saveItem() {
   if (!isMaster) { showToast('⚠️ View only access'); return; }
   const name = document.getElementById('itemName').value.trim();
   const desc = document.getElementById('itemDesc').value.trim();
   const price = parseFloat(document.getElementById('itemPrice').value);
   const supplierId = document.getElementById('itemSupplier').value;
 
-  if (!name || !price) { showToast('⚠️ Name & price required'); return; }
+  if (!name || isNaN(price)) { showToast('⚠️ Name & price required'); return; }
 
   const btn = document.querySelector('#addModal .btn-primary');
   btn.textContent = 'Saving...';
@@ -1229,7 +1229,7 @@ function openDetail(id) {
   const profit = (item.sold_price || 0) - (item.approval_price || 0);
 
   const imgContent = item.photo_url
-    ? `<img src="${item.photo_url}" style="width:100%;height:100%;object-fit:cover" />`
+    ? `<img src="${item.photo_url}" style="width:100%;height:100%;object-fit:cover" onerror="this.parentElement.innerHTML='<span style=font-size:60px>💍</span>'"/>`
     : `<span style="font-size:60px">💍</span>`;
 
   let actions = '';
