@@ -1175,7 +1175,7 @@ function previewPhoto(input) {
   reader.readAsDataURL(file);
 }
 
-async async function saveItem() {
+async function saveItem() {
   if (!isMaster) { showToast('⚠️ View only access'); return; }
   const name = document.getElementById('itemName').value.trim();
   const desc = document.getElementById('itemDesc').value.trim();
@@ -1208,7 +1208,7 @@ async async function saveItem() {
     name, description: desc, approval_price: price,
     supplier_id: supplierId || null,
     photo_url: photoUrl, status: 'in_stock'
-  });
+  , photo_url: photoUrl});
 
   btn.textContent = 'Save Item';
   btn.disabled = false;
@@ -1285,7 +1285,7 @@ async function confirmSell() {
     status: 'sold', sold_price: soldPrice,
     payment_received: paymentReceived, sold_at: new Date().toISOString()
   }).eq('id', id);
-  if (error) { showToast('❌ Error'); return; }
+  if (error) { console.error(error); showToast('❌ Delete failed'); return; }
   showToast('✅ Marked as sold!');
   closeModal('sellModal');
   await loadItems();
@@ -1295,7 +1295,7 @@ async function markReturned(id) {
   if (!isMaster) return;
   if (!confirm('Mark as returned to vendor?')) return;
   const { error } = await db.from('items').update({ status: 'returned' }).eq('id', id);
-  if (error) { showToast('❌ Error'); return; }
+  if (error) { console.error(error); showToast('❌ Delete failed'); return; }
   showToast('↩️ Returned to vendor');
   closeModal('detailModal');
   await loadItems();
@@ -1305,7 +1305,7 @@ async function deleteItem(id) {
   if (!isMaster) return;
   if (!confirm('Delete this item?')) return;
   const { error } = await db.from('items').delete().eq('id', id);
-  if (error) { showToast('❌ Error'); return; }
+  if (error) { console.error(error); showToast('❌ Delete failed'); return; }
   showToast('🗑️ Deleted');
   closeModal('detailModal');
   await loadItems();
@@ -1343,7 +1343,7 @@ async function saveSupplier() {
   const phone = document.getElementById('supplierPhone').value.trim();
   if (!name) { showToast('⚠️ Vendor name required'); return; }
   const { error } = await db.from('suppliers').insert({ name, phone: phone || null });
-  if (error) { showToast('❌ Error'); return; }
+  if (error) { console.error(error); showToast('❌ Delete failed'); return; }
   document.getElementById('supplierName').value = '';
   document.getElementById('supplierPhone').value = '';
   showToast('✅ Vendor added!');
@@ -1355,7 +1355,7 @@ async function deleteSupplier(id) {
   if (!isMaster) return;
   if (!confirm('Delete this vendor?')) return;
   const { error } = await db.from('suppliers').delete().eq('id', id);
-  if (error) { showToast('❌ Error'); return; }
+  if (error) { console.error(error); showToast('❌ Delete failed'); return; }
   showToast('🗑️ Vendor deleted');
   await loadSuppliers();
   renderSupplierList();
