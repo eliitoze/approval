@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="gu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eliitoze Jewelz - Inventory</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+</head>
+<body class="bg-gray-50 pb-10 font-sans">
+
+<div id="app">
+    <div id="login-section" class="flex items-center justify-center min-h-screen p-4">
+        <div class="bg-white p-8 rounded-2xl shadow-xl w-full max-w-md border">
+            <h1 class="text-3xl font-bold text-center mb-2 text-blue-700">Eliitoze Jewelz</h1>
+            <p class="text-center text-gray-400 mb-8 font-medium">ઇન્વેન્ટરી લોગિન</p>
+            <input type="password" id="passInput" placeholder="પાસવર્ડ નાખો..." 
+                class="w-full border-2 border-gray-100 p-4 rounded-xl mb-4 focus:border-blue-500 outline-none text-lg transition-all">
+            <button onclick="checkLogin()" 
+                class="w-full bg-blue-600 text-white font-bold py-4 rounded-xl shadow-lg hover:bg-blue-700 active:scale-95 transition">લોગિન</button>
+        </div>
+    </div>
+
+    <div id="main-content" class="hidden">
+        <header class="bg-white shadow-sm p-4 sticky top-0 z-20 flex justify-between items-center border-b">
+            <h2 class="text-xl font-bold text-blue-800 tracking-tight">📦 Eliitoze સ્ટોક</h2>
+            <button onclick="location.reload()" class="text-red-500 text-sm font-bold border border-red-100 px-3 py-1 rounded-lg hover:bg-red-50">Log Out</button>
+        </header>
+
+        <div class="flex space-x-2 p-4 overflow-x-auto bg-white border-b sticky top-[65px] z-10 no-scrollbar shadow-sm">
+            <button onclick="filterData('In Stock')" class="tab-btn bg-blue-600 text-white px-6 py-2 rounded-full font-bold whitespace-nowrap shadow-md transition-all">In Stock</button>
+            <button onclick="filterData('Sold')" class="tab-btn bg-white text-gray-500 border border-gray-100 px-6 py-2 rounded-full font-bold whitespace-nowrap transition-all">Sold</button>
+            <button onclick="filterData('Old')" class="tab-btn bg-white text-gray-500 border border-gray-100 px-6 py-2 rounded-full font-bold whitespace-nowrap transition-all">Old Items</button>
+            <button onclick="filterData('Returned')" class="tab-btn bg-white text-gray-500 border border-gray-100 px-6 py-2 rounded-full font-bold whitespace-nowrap transition-all">Returned</button>
+        </div>
+
+        <div id="loader" class="text-center py-10 font-medium text-gray-500">ડેટા લોડ થઈ રહ્યો છે...</div>
+
+        <div id="items-grid" class="p-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            </div>
+    </div>
+</div>
+
+<script>
+    // ૧. તમારી વિગતો અહીં નાખો
+    const URL = 'તમારો_SUPABASE_URL_અહીં';
+    const KEY = 'તમારો_ANON_KEY_અહીં';
+    const supabaseClient = supabase.createClient(sb_publishable_Q3lBGzYvGL01NLKO3SeWQA_GhW5K4ao);
+
+    let currentRole = '';
+    let allItems = [];
+
+    async function checkLogin() {
+        const pass = document.getElementById('passInput').value;
+        const { data, error } = await supabaseClient.from('app_config').select('*').single();
+
+        if (error) { alert('ડેટાબેઝ કનેક્શનમાં ભૂલ છે!'); return; }
+
+        if (pass === data.admin_pass) {
+            currentRole = 'admin';
+            startApp();
+        } else if (pass === data.viewer_pass) {
+            currentRole = 'viewer';
+            startApp();
+        } else {
+            alert('ખોટો પાસવર્ડ! ફરી ટ્રાય કરો.');
+        }
+    }
+
+    async function startApp() {
+        document.getElementById('login-section').classList.add('hidden');
+        document.getElementById('main-content').classList.remove('hidden');
+        loadData();
+    }
+
+    async function loadData() {
+        const { data, error } = await supabaseClient.from('items').select('*').order('created_at', { ascending: false });
+        document.getElementById('loader').classList.add('hidden');
+        if (!error) {
+            allItems = data;
+            renderItems('In Stock');
+        }
+    }
+
+    function renderItems(status) {
+        const grid = document.getElementById('items-grid');
+        grid.innerHTML = '';
+        const filtered = allItems.filter(i => i.status === status);
+        
+        if(filtered.length === 0) {
+            grid.innerHTML = `<div class="col-span-full text-center py-10 text-gray-400">કોઈ ડેટા મળ્યો નથી.</div>`;
+            return;
+        }
+
+        filtered.forEach(item => {
+            const card = `
+                <div class="bg-white rounded-2xl shadow-md border border-gray-50 overflow-hidden transform transition hover:shadow-xl">
+                    <img src="${item.photo_url || 'https://via.placeholder.com/400x300?text=No+Image'}" class="h-56 w-full object-cover bg-gray-100">
+                    <div class="p-4">
+                        <div class="flex justify-between items-start mb-2">
+                            <h3 class="font-bold text-gray-800 text-lg">${item.supplier_name}</h3>
+                            <span class="text-[10px] bg-blue-50 text-blue-600 px-2 py-1 rounded-full font-black uppercase">${item.status}</span>
+                        </div>
+                        <div class="flex justify-between items-end mt-4">
+                            <div>
+                                <p class="text-[10px] text-gray-400 font-bold uppercase tracking-wider">Selling Price</p>
+                                <p class="text-2xl font-black text-blue-700">₹${item.selling_price || 0}</p>
+                            </div>
+                            ${currentRole === 'admin' ? `
+                                <div class="text-right">
+                                    <p class="text-[10px] text-gray-400 font-bold uppercase tracking-wider">Cost</p>
+                                    <p class="text-sm font-bold text-green-600 bg-green-50 px-2 py-1 rounded">₹${item.cost_price || 0}</p>
+                                </div>
+                            ` : ''}
+                        </div>
+                    </div>
+                </div>
+            `;
+            grid.innerHTML += card;
+        });
+    }
+
+    function filterData(status) {
+        renderItems(status);
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.classList.remove('bg-blue-600', 'text-white', 'shadow-md');
+            btn.classList.add('bg-white', 'text-gray-500', 'border');
+            if(btn.innerText.includes(status)) {
+                btn.classList.add('bg-blue-600', 'text-white', 'shadow-md');
+                btn.classList.remove('bg-white', 'text-gray-500', 'border');
+            }
+        });
+    }
+</script>
+</body>
+</html>
